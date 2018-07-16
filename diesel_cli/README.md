@@ -137,3 +137,14 @@ $ diesel bash-completion > /etc/bash_completion.d/diesel
 $ brew install bash-completion  # you may already have this installed
 $ diesel bash-completion > $(brew --prefix)/etc/bash_completion.d/diesel
 ```
+
+API
+---
+
+```rust
+extern crate diesel_cli;
+
+fn main() {
+    diesel_cli::run(vec!["--help"]);
+}
+```

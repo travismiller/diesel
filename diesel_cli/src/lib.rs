@@ -46,6 +46,7 @@ use clap::{ArgMatches, Shell};
 use migrations_internals::{self as migrations, MigrationConnection};
 use std::any::Any;
 use std::error::Error;
+use std::ffi::OsString;
 use std::io::stdout;
 use std::path::{Path, PathBuf};
 use std::{env, fs};
@@ -54,12 +55,26 @@ use self::config::Config;
 use self::database_error::{DatabaseError, DatabaseResult};
 use migrations_internals::TIMESTAMP_FORMAT;
 
-fn main() {
+pub fn main() {
     use self::dotenv::dotenv;
     dotenv().ok();
 
     let matches = cli::build_cli().get_matches();
 
+    run_with_matches(&matches)
+}
+
+pub fn run<I, T>(args: I)
+where
+    I: IntoIterator<Item = T>,
+    T: Into<OsString> + Clone,
+{
+    let matches = cli::build_cli().setting(clap::AppSettings::NoBinaryName).get_matches_from(args);
+
+    run_with_matches(&matches)
+}
+
+fn run_with_matches(matches: &ArgMatches) {
     match matches.subcommand() {
         ("migration", Some(matches)) => run_migration_command(matches).unwrap_or_else(handle_error),
         ("setup", Some(matches)) => run_setup_command(matches),

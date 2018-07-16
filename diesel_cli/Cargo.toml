@@ -10,10 +10,6 @@ homepage = "https://diesel.rs"
 repository = "https://github.com/diesel-rs/diesel"
 keywords = ["diesel", "migrations", "cli"]
 
-[[bin]]
-name = "diesel"
-path = "src/main.rs"
-
 [dependencies]
 chrono = "0.4"
 clap = "2.27"
